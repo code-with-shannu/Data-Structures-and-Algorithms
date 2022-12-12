@@ -1,0 +1,56 @@
+Problem Description
+Given two sorted integer arrays A and B, merge B and A as one sorted array and return it as an output.
+
+Problem Constraints
+-1010 <= A[i], B[i] <= 1010
+
+Input Format
+First Argument is a 1-D array representing A.
+Second Argument is also a 1-D array representing B.
+
+Output Format
+Return a 1-D vector which you got after merging A and B.
+
+Example Input
+Input 1:
+A = [4, 7, 9 ]
+B = [2, 11, 19 ]
+Input 2:
+A = [1]
+B = [2]
+Example Output
+Output 1:
+[2, 4, 7, 9, 11, 19]
+Output 2:
+[1, 2]
+
+Example Explanation
+Explanation 1:
+Merging A and B produces the output as described above.
+Explanation 2:
+Merging A and B produces the output as described above.
+ 
+Solution:
+The Above problem can be done in many ways. We can just combine the two arrays using merge sort and then we can find the median but this will be taking a
+time complexity of O(M+N). But we need to do it in O(log n). This can be done using partition by binary search and fetches a time complexity
+of O(log(min(M,N)) and uses a space complexity of O(1).
+
+
+def findMedianSortedArrays(self, A, B):
+        if len(A)>len(B):
+            A, B = B, A
+        n1 = len(A)
+        n2 = len(B)
+        n=n1+n2
+        l = 0
+        h = n1
+        while l <= h:
+            cut1 = (l+h)//2
+            cut2 = n//2 - cut1
+            l1 = -math.inf if cut1==0 else A[cut1-1]
+            l2 = -math.inf if cut2==0 else B[cut2-1]
+            r1 = math.inf if cut1==n1 else A[cut1]
+            r2 = math.inf if cut2==n2 else B[cut2]
+            if l1>r2:h=cut1-1
+            elif l2>r1:l=cut1+1
+            else: return (max(l1, l2)+min(r1, r2))/2 if n%2==0 else min(r1, r2)
